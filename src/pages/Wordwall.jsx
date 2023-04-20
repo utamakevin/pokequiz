@@ -5,27 +5,31 @@ import { useState } from "react"
 
 export default function Wordwall() {
   const [gameStart, setGameStart] = useState(false)
+  const [userAnswer, setUserAnswer] = useState(null)
 
-  const handleClick = () => {
+  const handleGameStart = () => {
     setGameStart(true)
-    console.log("click")
+  }
+
+  const handleAnswer = e => {
+    setUserAnswer(e.target.textContent)
   }
 
   return (
     <section className="wordwall">
       <h1>Wordwall</h1>
-      <button onClick={() => setGameStart(false)}>Restart</button>
       {gameStart ? (
         <div className="game">
+          <button onClick={() => setGameStart(false)}>Restart</button>
           <h2>Who's that Pokemon?</h2>
           <PokemonCard />
           <div></div>
-          <button>Pikachu</button><button>Charmander</button><button>Ditto</button>
+          <button onClick={handleAnswer} >Pikachu</button><button onClick={handleAnswer}>Charmander</button><button onClick={handleAnswer}>Ditto</button>
         </div>
       ) : (
         <>
           <p>game instruction</p>
-          <button onClick={handleClick}>start</button>
+          <button onClick={handleGameStart}>start</button>
         </>
       )}
     </section>
