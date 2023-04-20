@@ -1,0 +1,26 @@
+.timerWrapper {
+  display: inline-grid;
+  aspect-ratio: 1/1;
+  background-color: aliceblue;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.timerDisplay {
+  font-family: Timer;
+  font-size: 300%;
+  display: grid;
+  margin: auto;
+  border: 2px solid black;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.buttonWrapper {
+  margin-top: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
