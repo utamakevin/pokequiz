@@ -1,14 +1,16 @@
-
 import React from "react"
 import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
+import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 
 export default function Wordwall() {
   const [gameStart, setGameStart] = useState(false)
+  const [pokemon, setPokemon] = useState(null)
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setGameStart(true)
-    console.log("click")
+    const data = await fetchRandomPokemon()
+    setPokemon(data)
   }
 
   return (
@@ -18,9 +20,11 @@ export default function Wordwall() {
       {gameStart ? (
         <div className="game">
           <h2>Who's that Pokemon?</h2>
-          <PokemonCard />
+          {pokemon && <PokemonCard pokemon={pokemon} />}
           <div></div>
-          <button>Pikachu</button><button>Charmander</button><button>Ditto</button>
+          <button>Pikachu</button>
+          <button>Charmander</button>
+          <button>Ditto</button>
         </div>
       ) : (
         <>
@@ -31,4 +35,3 @@ export default function Wordwall() {
     </section>
   )
 }
-

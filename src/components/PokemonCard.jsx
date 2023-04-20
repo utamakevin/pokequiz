@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import "./PokemonCard.css"
 
-const PokemonCard = () => {
-  const [pokemon, setPokemon] = useState(null)
-
-  useEffect(() => {
-    fetchRandomPokemon()
-  }, [])
-
-  const fetchRandomPokemon = async () => {
-    const randomId = Math.floor(Math.random() * 151) + 1
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${randomId}`
-    )
-    const data = await response.json()
-    setPokemon(data)
-  }
-
+const PokemonCard = ({ pokemon }) => {
   return (
     <div className="pokemon-card">
       {pokemon ? (
