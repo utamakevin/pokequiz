@@ -1,0 +1,19 @@
+{
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact",
+      "postcss": "css"
+    },
+    "window.zoomLevel": 1,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascriptreact]": {
+      // "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.arrowParens": "avoid",
+    "prettier.semi": false,
+    "workbench.startupEditor": "none"
+  }
