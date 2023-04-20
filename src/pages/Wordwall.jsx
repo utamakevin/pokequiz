@@ -11,6 +11,7 @@ export default function Wordwall() {
   return (
     <section className="wordwall">
       <h1>Wordwall</h1>
+      <button onClick={() => setGameStart(false)}>Restart</button>
       {gameStart ? (
         <div className="game">
           <h2>Who's that Pokemon?</h2>
