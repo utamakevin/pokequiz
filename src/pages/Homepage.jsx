@@ -6,9 +6,6 @@ export default function HomePage() {
         <section className="home-page">
             <h1>Home Page</h1>
             <Link to="/wordwall">Wordwall</Link>
-            {/* <Routes>
-                <Route path="./Wordwall" element={<Wordwall />} />
-            </Routes> */}
         </section>
     )
 }

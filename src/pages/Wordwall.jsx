@@ -13,7 +13,10 @@ export default function Wordwall() {
       <h1>Wordwall</h1>
       {gameStart ? (
         <div className="game">
-          <span>game displayed here</span>
+          <h2>Who's that Pokemon?</h2>
+          <img src="https://placehold.co/400" alt="" />
+          <div></div>
+          <button>Pikachu</button><button>Charmander</button><button>Ditto</button>
         </div>
       ) : (
         <>
