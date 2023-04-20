@@ -1,3 +1,6 @@
+
+import React from "react"
+import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
 
 export default function Wordwall() {
@@ -15,7 +18,7 @@ export default function Wordwall() {
       {gameStart ? (
         <div className="game">
           <h2>Who's that Pokemon?</h2>
-          <img src="https://placehold.co/400" alt="" />
+          <PokemonCard />
           <div></div>
           <button>Pikachu</button><button>Charmander</button><button>Ditto</button>
         </div>
@@ -28,3 +31,4 @@ export default function Wordwall() {
     </section>
   )
 }
+
