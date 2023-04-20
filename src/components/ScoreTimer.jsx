@@ -7,43 +7,62 @@ import {
   stopTimer,
 } from "../utils/timerFunctions"
 
-export default function ScoreTimer(props) {
+export default function ScoreTimer({
+  timer,
+  startValue,
+  totalScore,
+  handleCurrentScore,
+}) {
+  let timerData = ["days", "hours", "minutes", "seconds", "secondTenths"]
+
   return (
     <section className={css.timerWrapper}>
       <div className={css.timerDisplay}>
-        {props.timer.getTimeValues().toString(["minutes", "seconds"])}
+        {timer.getTimeValues().toString(["minutes", "seconds"])}
       </div>
-      <div className={css.buttonWrapper}>
+      <div className={css.scoreWrapper}>
+        <p>Score: {totalScore}</p>
+        <div
+          //   type="text"
+          value={Number(
+            timer.getTimeValues().toString(timerData).split(":").join("")
+          )}
+          onChange={handleCurrentScore}
+        >
+          {}
+        </div>
+      </div>
+      {/* <div className={css.buttonWrapper}>
         <button
           disabled
           onClick={() => {
-            props.startCountdown(props.timer, props.startValue)
+            startCountdown(timer, startValue)
           }}
         >
           Start
         </button>
         <button
           onClick={() => {
-            props.pauseTimer(props.timer)
+            pauseTimer(timer)
           }}
         >
           Pause
         </button>
         <button
           onClick={() => {
-            props.stopTimer(props.timer)
+            stopTimer(timer)
           }}
         >
           Stop
         </button>
         <button
           onClick={() => {
-            props.resetTimer(props.timer)
+            resetTimer(timer)
           }}
         >
           Reset
         </button>
-      </div>
+      </div> */}
     </section>
   )
 }

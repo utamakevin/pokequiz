@@ -9,10 +9,10 @@ import ScoreTimer from "../components/ScoreTimer"
 // import { startCountdown } from "../utils/timerFunctions"
 
 import {
-  startCountdown,
-  stopTimer,
   pauseTimer,
   resetTimer,
+  startCountdown,
+  stopTimer,
 } from "../utils/timerFunctions"
 // import {} from "../utils/timerFunctions"
 
@@ -39,6 +39,17 @@ export default function Wordwall() {
 
   const handleAnswer = e => {
     setUserAnswer(e.target.textContent)
+    let timerData = ["days", "hours", "minutes", "seconds", "secondTenths"]
+    setTotalScore(
+      prevScore =>
+        prevScore +
+        Number(timer.getTimeValues().toString(timerData).split(":").join(""))
+    )
+    // setTotalScore(currentScore)
+    // setCurrentScore(0)
+    // stopTimer(timer)
+    pauseTimer(timer)
+    // resetTimer(timer)
   }
 
   const [startValue, setStartValue] = useState({
@@ -58,24 +69,35 @@ export default function Wordwall() {
     startValues: startValue,
     target: targetValue,
     countdown: true,
-    precision: "seconds",
-    // updateWhenTargetAchieved: true,
+    precision: "secondTenths",
   })
+
+  const [totalScore, setTotalScore] = useState(0)
+  const [currentScore, setCurrentScore] = useState(0)
+
+  const handleCurrentScore = event => {
+    // console.log(event.target.value)
+    setCurrentScore(event.target.value)
+    // setCurrentScore(2)
+  }
+
+  const handleRestart = () => {
+    setGameStart(false)
+    stopTimer(timer)
+  }
 
   return (
     <section className="wordwall">
       <h1>Wordwall</h1>
       <ScoreTimer
         timer={timer}
-        startCountdown={startCountdown}
-        stopTimer={stopTimer}
-        resetTimer={resetTimer}
-        pauseTimer={pauseTimer}
         startValue={startValue}
+        totalScore={totalScore}
+        handleCurrentScore={handleCurrentScore}
       />
       {gameStart ? (
         <div className="game">
-          <button onClick={() => setGameStart(false)}>Restart</button>
+          <button onClick={handleRestart}>Restart</button>
           <h2>Who's that Pokemon?</h2>
           {pokemon && <PokemonCard pokemon={pokemon} />}
           <div></div>

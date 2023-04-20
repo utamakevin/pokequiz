@@ -18,6 +18,11 @@
   border-radius: 10px;
 }
 
+.scoreWrapper div {
+  /* text-align: left; */
+  display: none;
+}
+
 .buttonWrapper {
   margin-top: 5px;
   display: grid;
