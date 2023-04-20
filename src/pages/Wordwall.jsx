@@ -1,5 +1,13 @@
-export default function Wordwall() {
-    return (
-        <h1>Wordwall</h1>
-    )
+import React from "react"
+import PokemonCard from "./../components/PokemonCard"
+
+const Wordwall = () => {
+  return (
+    <div>
+      <h1>Who's That Pokémon?</h1>
+      <PokemonCard />
+    </div>
+  )
 }
+
+export default Wordwall
