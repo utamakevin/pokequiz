@@ -7,7 +7,6 @@ const PokemonCard = ({ pokemon }) => {
       {pokemon ? (
         <>
           <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-          <h3>{pokemon.name}</h3>
         </>
       ) : (
         <p>Loading...</p>
