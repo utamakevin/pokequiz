@@ -16,7 +16,6 @@ const PokemonCard = ({ pokemon, timer, grid }) => {
               <BlackGrid key={index} timer={timer} colour={box.colour} />
             ))}
           </div>
-          <h3>{pokemon.name}</h3>
         </>
       ) : (
         <p>Loading...</p>

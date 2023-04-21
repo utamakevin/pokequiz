@@ -3,6 +3,7 @@ import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 import fetchGen1 from "../utils/fetchGen1"
+import styles from "./Wordwall.module.css"
 
 import { Link } from "react-router-dom"
 
@@ -48,6 +49,7 @@ export default function Wordwall() {
     if (gameStart) {
       audioElement.current = new Audio("/audio/Pokemon-intro.mp3")
       audioElement.current.loop = true
+      audioElement.current.volume = 0.2
       audioElement.current.play()
       return () => {
         audioElement.current.pause()
@@ -243,14 +245,14 @@ export default function Wordwall() {
               {option.name}
             </button>
           ))}
-          <div className="volume-mixer">
+          <div className={styles["volume-mixer"]}>
             <input
               type="range"
               min="0"
               max="1"
               step="0.01"
               onChange={handleVolumeChange}
-              defaultValue="1"
+              defaultValue="0.2"
               style={{ verticalAlign: "middle", width: "100px" }}
             />
             <i
