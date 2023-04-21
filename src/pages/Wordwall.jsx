@@ -100,6 +100,7 @@ export default function Wordwall() {
     timer.addEventListener("targetAchieved", async () => {
       setOutOfTime(true)
       pauseTimer(timer)
+      revealAllBoxes()
 
       setTimeout(async () => {
         const data = await fetchRandomPokemon()
@@ -108,6 +109,8 @@ export default function Wordwall() {
         setOutOfTime(false)
         resetTimer(timer)
         startCountdown(timer, startValue)
+        generateBoxes(20).then(res => setGrid(res))
+        generateRevealOrder(20).then(res => setToReveal(res))
       }, 1000)
     })
 
@@ -207,6 +210,7 @@ export default function Wordwall() {
     stopTimer(timer)
     generateBoxes(20).then(res => setGrid(res))
     generateRevealOrder(20).then(res => setToReveal(res))
+    setTotalScore(0)
   }
 
   const revealAllBoxes = () => {
