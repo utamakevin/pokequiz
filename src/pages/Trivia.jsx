@@ -43,9 +43,11 @@ export default function Trivia() {
           <button className={css.button} onClick={handleNewQ}>
             New Question
           </button>
-          <button className={css.button} onClick={handleReveal}>
-            Reveal Answer
-          </button>
+          {isRevealed ? <button className={css.button} onClick={handleReveal}>
+             Hide answer
+          </button> : <button className={css.button} onClick={handleReveal}>
+             Reveal answer
+          </button>}
         </div>
       </section>
     </main>
