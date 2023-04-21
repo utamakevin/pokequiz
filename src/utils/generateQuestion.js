@@ -80,7 +80,7 @@ async function processQuestion(question) {
             data.answer = evolutionArr[0].species.name
             // console.log(data)
           } else {
-            data.answer = "false"
+            data.answer = "trick question!"
           }
         })
       }
