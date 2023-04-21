@@ -4,11 +4,7 @@ import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 import fetchGen1 from "../utils/fetchGen1"
 
-import { useEffect } from "react"
-import { useRef } from "react"
-
 import { Link } from "react-router-dom"
-
 
 import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
@@ -223,9 +219,7 @@ export default function Wordwall() {
   return (
     <section className="wordwall">
       <h1>Wordwall</h1>
-      <Link to="/">
-        exit
-      </Link>
+      <Link to="/">exit</Link>
       <ScoreTimer
         timer={timer}
         startValue={startValue}
@@ -272,7 +266,10 @@ export default function Wordwall() {
         </div>
       ) : (
         <>
-          <p>Guess which Pokemon is displayed on the screen. The quicker the answer, the bigger the score.</p>
+          <p>
+            Guess which Pokemon is displayed on the screen. The quicker the
+            answer, the bigger the score.
+          </p>
           <button onClick={handleGameStart}>start</button>
         </>
       )}
