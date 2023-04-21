@@ -20,11 +20,13 @@ import {
   startCountdown,
   stopTimer,
 } from "../utils/timerFunctions"
+import WordWallResult from "../components/WordWallResult"
 
 const timer = new Timer()
 
 export default function Wordwall() {
   const [gameStart, setGameStart] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
 
   const [pokemon, setPokemon] = useState(null)
@@ -44,7 +46,7 @@ export default function Wordwall() {
 
   const audioElement = useRef(null)
 
-  const [questionsRemaining, setQuestionsRemaining] = useState(10)
+  const [questionNumber, setQuestionNumber] = useState(0)
 
   useEffect(() => {
     if (gameStart) {
@@ -56,6 +58,10 @@ export default function Wordwall() {
       return () => {
         audioElement.current.pause()
       }
+      // } else {
+      //   return () => {
+      //     audioElement.current.pause()
+      //   }
     }
   }, [gameStart])
 
@@ -88,8 +94,10 @@ export default function Wordwall() {
   const gridRef = useRef()
   gridRef.current = grid
 
+  const qNumRef = useRef()
+  qNumRef.current = questionNumber
+
   const handleClick = async () => {
-    setGameStart(true)
     const data = await fetchRandomPokemon()
     setPokemon(data)
     generatePokemonOptions(data)
@@ -99,6 +107,13 @@ export default function Wordwall() {
     setGameStart(true)
     handleClick()
     startCountdown(timer, startValue)
+    setQuestionNumber(qNumRef.current + 1)
+    generateBoxes(20).then(res => setGrid(res))
+    generateRevealOrder(20).then(res => setToReveal(res))
+    setRevealAnswer(false)
+    setIsDisabled(false)
+    setQuestionNumber(0)
+    setGameOver(false)
 
     timer.addEventListener("targetAchieved", async () => {
       setOutOfTime(true)
@@ -115,6 +130,7 @@ export default function Wordwall() {
         generateBoxes(20).then(res => setGrid(res))
         generateRevealOrder(20).then(res => setToReveal(res))
         setRevealAnswer(false)
+        setQuestionNumber(qNumRef.current + 1)
       }, 1000)
     })
 
@@ -172,19 +188,24 @@ export default function Wordwall() {
 
     setIsDisabled(true)
 
-    setTimeout(async () => {
-      generateBoxes(20).then(res => setGrid(res))
-      generateRevealOrder(20).then(res => setToReveal(res))
-      setRevealAnswer(false)
-      const data = await fetchRandomPokemon()
-      setPokemon(data)
-      generatePokemonOptions(data)
-      setCorrectAnswer(false)
-      setWrongAnswer(false)
-      resetTimer(timer)
-      startCountdown(timer, startValue)
-      setIsDisabled(false)
-    }, 1000)
+    if (qNumRef.current >= 10) {
+      setGameOver(true)
+    } else {
+      setTimeout(async () => {
+        generateBoxes(20).then(res => setGrid(res))
+        generateRevealOrder(20).then(res => setToReveal(res))
+        setRevealAnswer(false)
+        const data = await fetchRandomPokemon()
+        setPokemon(data)
+        generatePokemonOptions(data)
+        setCorrectAnswer(false)
+        setWrongAnswer(false)
+        resetTimer(timer)
+        startCountdown(timer, startValue)
+        setIsDisabled(false)
+        setQuestionNumber(qNumRef.current + 1)
+      }, 1000)
+    }
   }
 
   const [startValue, setStartValue] = useState({
@@ -233,31 +254,36 @@ export default function Wordwall() {
   return (
     <section className={styles.wordwall}>
       <h1>Who's that Pokemon?</h1>
-      <Link to="/">exit</Link>
-      <ScoreTimer
-        timer={timer}
-        startValue={startValue}
-        totalScore={totalScore}
-        handleCurrentScore={handleCurrentScore}
-      />
+      {gameOver ? (
+        <WordWallResult totalScore={totalScore} handleRestart={handleRestart} />
+      ) : (
+        <ScoreTimer
+          timer={timer}
+          startValue={startValue}
+          totalScore={totalScore}
+          handleCurrentScore={handleCurrentScore}
+          questionNumber={questionNumber}
+        />
+      )}
+
       {gameStart ? (
         <div className="game">
-          <button onClick={handleRestart}>Restart</button>
           <div></div>
-          {/* <h2>Who's that Pokemon?</h2> */}
           {pokemon && (
             <PokemonCard pokemon={pokemon} timer={timer} grid={grid} />
           )}
           <div></div>
-          {pokemonOptions.map(option => (
-            <button
-              key={option.name}
-              disabled={isDisabled}
-              onClick={handleAnswer}
-            >
-              {option.name}
-            </button>
-          ))}
+          <section className={styles.optionsWrapper}>
+            {pokemonOptions.map(option => (
+              <button
+                key={option.name}
+                disabled={isDisabled}
+                onClick={handleAnswer}
+              >
+                {option.name}
+              </button>
+            ))}
+          </section>
           <div className={styles["volume-mixer"]}>
             <input
               type="range"
@@ -296,9 +322,18 @@ export default function Wordwall() {
             Guess which Pokemon is displayed on the screen. The quicker the
             answer, the bigger the score.
           </p>
-          <button onClick={handleGameStart}>start</button>
         </>
       )}
+      <section className={styles.navButton}>
+        {gameStart ? (
+          <button onClick={handleRestart}>Restart</button>
+        ) : (
+          <button onClick={handleGameStart}>Start</button>
+        )}
+        <button>
+          <Link to="/">Exit</Link>
+        </button>
+      </section>
     </section>
   )
 }

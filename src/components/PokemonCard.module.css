@@ -29,6 +29,8 @@
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   z-index: 0;
+  background-position: center;
+  background-size: 110%;
 }
 
 .blackBox {
@@ -38,7 +40,7 @@
   z-index: 1;
   margin: auto;
   align-content: center;
-  border: 1px solid white;
+  border: 0.5px solid white;
 }
 
 .blackBox:click {

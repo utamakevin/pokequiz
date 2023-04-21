@@ -12,6 +12,7 @@ export default function ScoreTimer({
   startValue,
   totalScore,
   handleCurrentScore,
+  questionNumber,
 }) {
   let timerData = ["days", "hours", "minutes", "seconds", "secondTenths"]
 
@@ -22,7 +23,7 @@ export default function ScoreTimer({
       </div>
       <div className={css.scoreWrapper}>
         <p>Score: {totalScore}</p>
-        <p>Question {}/10</p>
+        <p>Question {questionNumber}/10</p>
         <div
           //   type="text"
           value={Number(
