@@ -1,16 +1,15 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import css from "./Homepage.module.css"
-
 export default function HomePage() {
+  const navigate = useNavigate()
   return (
-    <section className="home-page">
-      <h1>Home Page</h1>
-      <Link to="/wordwall" className={css.gameLink}>
-        Wordwall
-      </Link>
-      <Link to="/trivia" className={css.gameLink}>
-        Trivia
-      </Link>
+    <section className={css.main}>
+      <div onClick={() => navigate("./wordwall")} className={css.wordwall}>
+        <p className={css.p}>Wordwall</p>
+      </div>
+      <div onClick={() => navigate("./trivia")} className={css.trivia}>
+        <p className={css.p}>Trivia</p>
+      </div>
     </section>
   )
 }
