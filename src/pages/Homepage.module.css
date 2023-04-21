@@ -25,3 +25,42 @@ p {
   margin: 0;
   padding: 50px;
 }
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  margin-top: -75px; /* Half the height */
+  margin-left: -75px; /* Half the width */
+  /* animation-name: spin; */
+  animation-iteration-count: infinite;
+  /* animation-timing-function: linear; */
+}
+
+.logo:hover {
+  animation-name: spin;
+  animation-duration: 500ms;
+  animation-timing-function:cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-iteration-count: 1;
+}
+
+/* div {
+  width: 100px;
+  height: 100px;
+  background-color: #0CB1C4;
+  animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+} */
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

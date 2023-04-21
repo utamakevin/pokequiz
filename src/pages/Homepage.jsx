@@ -10,6 +10,7 @@ export default function HomePage() {
       <div onClick={() => navigate("./trivia")} className={css.trivia}>
         <p className={css.p}>Trivia</p>
       </div>
+      <img class={css.logo} src="./images/logo.png" alt="" />
     </section>
   )
 }
