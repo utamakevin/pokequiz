@@ -2,11 +2,32 @@
   font-family: Timer;
   src: url("./fonts/digital-7.mono.ttf");
 }
+@font-face {
+  font-family: PokemonSolid;
+  src: url("./fonts/Pokemon\ Solid.ttf");
+}
+@font-face {
+  font-family: PokemonHollow;
+  src: url("./fonts/Pokemon\ Hollow.ttf");
+}
+@font-face {
+  font-family: Ketchum;
+  src: url("./fonts/Ketchum.otf");
+}
 
 body {
   text-align: center;
+  margin: auto;
 }
 
 .App {
   height: 100%;
+}
+
+.game-title {
+  font-family: PokemonSolid;
+  -webkit-text-stroke: 2px rgb(54 92 166);
+  font-size: 250%;
+  color: rgb(228, 184, 11);
+  text-shadow: 10px solid black;
 }

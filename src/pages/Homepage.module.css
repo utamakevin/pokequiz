@@ -1,5 +1,6 @@
 .main {
   height: 100%;
+  width: 100%;
 }
 
 .wordwall,
@@ -7,6 +8,7 @@
   height: 50%;
   font-size: 50px;
   cursor: pointer;
+  -webkit-text-stroke: 0.1em rgb(54 92 166);
 }
 
 .wordwall {
@@ -42,7 +44,7 @@ p {
 .logo:hover {
   animation-name: spin;
   animation-duration: 500ms;
-  animation-timing-function:cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   animation-iteration-count: 1;
 }
 
@@ -57,10 +59,10 @@ p {
 } */
 
 @keyframes spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
