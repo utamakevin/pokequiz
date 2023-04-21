@@ -160,7 +160,7 @@ export default function Wordwall() {
         </div>
       ) : (
         <>
-          <p>game instruction</p>
+          <p>Guess which Pokemon is displayed on the screen. The quicker the answer, the bigger the score.</p>
           <button onClick={handleGameStart}>start</button>
         </>
       )}
