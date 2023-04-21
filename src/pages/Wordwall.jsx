@@ -2,6 +2,7 @@ import React from "react"
 import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
+import fetchGen1 from "../utils/fetchGen1"
 
 import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
@@ -14,7 +15,6 @@ import {
   startCountdown,
   stopTimer,
 } from "../utils/timerFunctions"
-// import {} from "../utils/timerFunctions"
 
 const timer = new Timer()
 
@@ -25,33 +25,79 @@ export default function Wordwall() {
   const [totalScore, setTotalScore] = useState(0)
   const [currentScore, setCurrentScore] = useState(0)
 
+  const [pokemonOptions, setPokemonOptions] = useState([])
+
+  const [correctAnswer, setCorrectAnswer] = useState(false)
+
+  const [wrongAnswer, setWrongAnswer] = useState(false)
+
+  const [outOfTime, setOutOfTime] = useState(false)
+
   const handleClick = async () => {
     setGameStart(true)
     const data = await fetchRandomPokemon()
     setPokemon(data)
+    generatePokemonOptions(data)
   }
-
-  const [userAnswer, setUserAnswer] = useState(null)
 
   const handleGameStart = () => {
     setGameStart(true)
     handleClick()
     startCountdown(timer, startValue)
+
+    timer.addEventListener("targetAchieved", async () => {
+      setOutOfTime(true)
+      pauseTimer(timer)
+
+      setTimeout(async () => {
+        const data = await fetchRandomPokemon()
+        setPokemon(data)
+        generatePokemonOptions(data)
+        setOutOfTime(false)
+        resetTimer(timer)
+        startCountdown(timer, startValue)
+      }, 1000)
+    })
+  }
+
+  const generatePokemonOptions = async correctPokemon => {
+    const gen1Pokemon = await fetchGen1()
+    const options = [correctPokemon]
+    while (options.length < 4) {
+      const randomIndex = Math.floor(Math.random() * gen1Pokemon.length)
+      const randomPokemon = gen1Pokemon[randomIndex]
+      if (!options.find(option => option.name === randomPokemon.name)) {
+        options.push(randomPokemon)
+      }
+    }
+    setPokemonOptions(options.sort(() => Math.random() - 0.5))
   }
 
   const handleAnswer = e => {
-    setUserAnswer(e.target.textContent)
-    let timerData = ["days", "hours", "minutes", "seconds", "secondTenths"]
-    setTotalScore(
-      prevScore =>
-        prevScore +
-        Number(timer.getTimeValues().toString(timerData).split(":").join(""))
-    )
-    // setTotalScore(currentScore)
-    // setCurrentScore(0)
-    // stopTimer(timer)
-    pauseTimer(timer)
-    // resetTimer(timer)
+    const selectedOption = e.target.textContent
+    if (selectedOption === pokemon.name) {
+      let timerData = ["days", "hours", "minutes", "seconds", "secondTenths"]
+      setTotalScore(
+        prevScore =>
+          prevScore +
+          Number(timer.getTimeValues().toString(timerData).split(":").join(""))
+      )
+      setCorrectAnswer(true)
+      pauseTimer(timer)
+    } else {
+      setWrongAnswer(true)
+      pauseTimer(timer)
+    }
+
+    setTimeout(async () => {
+      const data = await fetchRandomPokemon()
+      setPokemon(data)
+      generatePokemonOptions(data)
+      setCorrectAnswer(false)
+      setWrongAnswer(false)
+      resetTimer(timer)
+      startCountdown(timer, startValue)
+    }, 1000)
   }
 
   const [startValue, setStartValue] = useState({
@@ -97,11 +143,17 @@ export default function Wordwall() {
           <button onClick={handleRestart}>Restart</button>
           <h2>Who's that Pokemon?</h2>
           {pokemon && <PokemonCard pokemon={pokemon} timer={timer} />}
+          {correctAnswer && <h3>Correct!</h3>}
+          {wrongAnswer && <h3>Wrong!</h3>}
+          {outOfTime && <h3>Out of time!</h3>}
+          {pokemon && <PokemonCard pokemon={pokemon} />}
           <div></div>
 
-          <button onClick={handleAnswer}>Pikachu</button>
-          <button onClick={handleAnswer}>Charmander</button>
-          <button onClick={handleAnswer}>Ditto</button>
+          {pokemonOptions.map(option => (
+            <button key={option.name} onClick={handleAnswer}>
+              {option.name}
+            </button>
+          ))}
         </div>
       ) : (
         <>
