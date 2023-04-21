@@ -9,21 +9,60 @@ import { Link } from "react-router-dom"
 export default function Trivia() {
   const [genOne, setGenOne] = useState([])
   const [question, setQuestion] = useState("")
+  const [options, setOptions] = useState([])
   const [isRevealed, setIsRevealed] = useState(false)
+  const [feedback, setFeedback] = useState("")
 
+  // from here
   useEffect(() => {
-    fetchGen1().then(res => setGenOne(res))
-
-    generateQuestion().then(res => setQuestion(res))
+    initialSetup()
   }, [])
 
-  const handleNewQ = () => {
-    setIsRevealed(false)
-    generateQuestion().then(res => setQuestion(res))
+  const initialSetup = async () => {
+    const genOneData = await fetchGen1()
+    setGenOne(genOneData)
+
+    if (genOneData && genOneData.length > 0) {
+      await handleNewQ()
+    }
   }
 
-  const handleReveal = () => {
-    setIsRevealed(!isRevealed)
+  const handleNewQ = async () => {
+    if (!genOne || genOne.length === 0) {
+      return
+    }
+
+    setIsRevealed(false)
+    const newQuestion = await generateQuestion()
+    setQuestion(newQuestion)
+
+    const newOptions = [newQuestion.answer]
+    while (newOptions.length < 3) {
+      const randomIndex = Math.floor(Math.random() * genOne.length)
+      const randomOption = genOne[randomIndex].name
+      if (!newOptions.includes(randomOption)) {
+        newOptions.push(randomOption)
+      }
+    }
+
+    setOptions(newOptions.sort(() => Math.random() - 0.5))
+  }
+  // to here is a little unstable on reload or if you
+  // go exit then go back into the game it will not
+  // display multiple choice options
+  // most likely cause is because the genOne is not yet populated with data when the component first renders,
+  // causing the randomOption line to throw an error when trying to access the name property.
+  // saving the vsc code can make it work again
+
+  const checkAnswer = selectedOption => {
+    if (selectedOption === question.answer) {
+      setFeedback("Correct!")
+    } else {
+      setFeedback("Wrong!")
+    }
+    setTimeout(() => {
+      handleNewQ()
+    }, 1000)
   }
 
   return (
@@ -41,19 +80,17 @@ export default function Trivia() {
             </div>
           )}
         </div>
+        <div className={css.feedback}>{feedback}</div>
         <div className={css.buttons}>
-          <button className={css.button} onClick={handleNewQ}>
-            New Question
-          </button>
-          {isRevealed ? (
-            <button className={css.button} onClick={handleReveal}>
-              Hide answer
+          {options.map(option => (
+            <button
+              className={css.button}
+              key={option}
+              onClick={() => checkAnswer(option)}
+            >
+              {option}
             </button>
-          ) : (
-            <button className={css.button} onClick={handleReveal}>
-              Reveal answer
-            </button>
-          )}
+          ))}
         </div>
       </section>
     </main>
