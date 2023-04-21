@@ -261,6 +261,7 @@ export default function Wordwall() {
   return (
     <section className={styles.wordwall}>
       <h1 className="game-title">Who's that Pokemon?</h1>
+      <Link to="/wordWallLeaderboard">Leaderboard</Link>
       {gameOver ? (
         <WordWallResult totalScore={totalScore} handleRestart={handleRestart} />
       ) : (
