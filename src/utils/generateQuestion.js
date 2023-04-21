@@ -1,4 +1,4 @@
-function getRandomNumber(number) {
+export function getRandomNumber(number) {
   return Math.floor(Math.random() * number)
 }
 
@@ -88,7 +88,10 @@ async function processQuestion(question) {
         let englishBlueFlavour
 
         for (let flavour of res.flavor_text_entries) {
-          if (flavour.version.name == "blue" && flavour.language.name == "en") {
+          if (
+            flavour.version.name === "blue" &&
+            flavour.language.name === "en"
+          ) {
             englishBlueFlavour = flavour.flavor_text.split("\n").join(" ")
           }
         }
