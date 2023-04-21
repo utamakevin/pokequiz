@@ -3,8 +3,12 @@ import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 import fetchGen1 from "../utils/fetchGen1"
+
 import { useEffect } from "react"
 import { useRef } from "react"
+
+import { Link } from "react-router-dom"
+
 
 import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
@@ -25,6 +29,8 @@ export default function Wordwall() {
   const [gameStart, setGameStart] = useState(false)
 
   const [pokemon, setPokemon] = useState(null)
+  const [totalScore, setTotalScore] = useState(0)
+  const [currentScore, setCurrentScore] = useState(0)
 
   const [pokemonOptions, setPokemonOptions] = useState([])
 
@@ -149,13 +155,8 @@ export default function Wordwall() {
     precision: "secondTenths",
   })
 
-  const [totalScore, setTotalScore] = useState(0)
-  const [currentScore, setCurrentScore] = useState(0)
-
   const handleCurrentScore = event => {
-    // console.log(event.target.value)
     setCurrentScore(event.target.value)
-    // setCurrentScore(2)
   }
 
   const handleRestart = () => {
@@ -166,6 +167,9 @@ export default function Wordwall() {
   return (
     <section className="wordwall">
       <h1>Wordwall</h1>
+      <Link to="/">
+        exit
+      </Link>
       <ScoreTimer
         timer={timer}
         startValue={startValue}
@@ -179,7 +183,7 @@ export default function Wordwall() {
           {correctAnswer && <h3>Correct!</h3>}
           {wrongAnswer && <h3>Wrong!</h3>}
           {outOfTime && <h3>Out of time!</h3>}
-          {pokemon && <PokemonCard pokemon={pokemon} />}
+          {pokemon && <PokemonCard pokemon={pokemon} timer={timer} />}
           <div></div>
 
           {pokemonOptions.map(option => (

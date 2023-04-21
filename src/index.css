@@ -1,5 +1,10 @@
 * {
   box-sizing: border-box;
+  /* border: 1px solid red; */
+}
+
+#root {
+  height: 100%;
 }
 
 body {
@@ -14,7 +19,7 @@ body {
 }
 
 a {
-  color: #d91e36;
+  /* color: #d91e36; */
   text-decoration: none;
 }
 
@@ -26,4 +31,8 @@ h5,
 h6 {
   color: #d91e36;
   font-weight: bold;
+}
+
+html, body {
+  height: 100%;
 }

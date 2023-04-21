@@ -7,8 +7,8 @@ import Trivia from "./pages/Trivia"
 function App() {
   return (
     <div className="App">
-      <HomePage />
       <Routes>
+        <Route path ="/" element = {<HomePage />} />
         <Route path="/wordwall" element={<Wordwall />} />
         <Route path="/trivia" element={<Trivia />} />
       </Routes>
