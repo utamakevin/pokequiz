@@ -1,12 +1,27 @@
-import React from "react"
-import "./PokemonCard.css"
+import css from "./PokemonCard.module.css"
+import BlackGrid from "./BlackGrid"
 
-const PokemonCard = ({ pokemon }) => {
+const PokemonCard = ({ pokemon, timer }) => {
+  const grid = "blackBox,"
+    .repeat(20 * 20)
+    .split(",")
+    .slice(0, -1)
+
   return (
-    <div className="pokemon-card">
+    <div className={css.pokemonCard}>
       {pokemon ? (
         <>
-          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+          <div
+            className={css.pokemonImage}
+            style={{
+              backgroundImage: `url("${pokemon.sprites.front_default}")`,
+            }}
+          >
+            {grid.map((box, index) => (
+              <BlackGrid key={index} timer={timer} />
+            ))}
+          </div>
+          <h3>{pokemon.name}</h3>
         </>
       ) : (
         <p>Loading...</p>
