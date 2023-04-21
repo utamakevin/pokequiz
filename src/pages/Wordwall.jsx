@@ -11,15 +11,12 @@ import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
 import ScoreTimer from "../components/ScoreTimer"
 import "font-awesome/css/font-awesome.min.css"
-// import { startCountdown } from "../utils/timerFunctions"
-import { getRandomNumber } from "../utils/generateQuestion"
 
 import {
   generateBoxes,
   generateRevealOrder,
   pauseTimer,
   resetTimer,
-  revealAllBoxes,
   startCountdown,
   stopTimer,
 } from "../utils/timerFunctions"
@@ -28,6 +25,7 @@ const timer = new Timer()
 
 export default function Wordwall() {
   const [gameStart, setGameStart] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(false)
 
   const [pokemon, setPokemon] = useState(null)
   const [totalScore, setTotalScore] = useState(0)
@@ -42,14 +40,18 @@ export default function Wordwall() {
   const [outOfTime, setOutOfTime] = useState(false)
 
   const [isMuted, setIsMuted] = useState(false)
+  const [revealAnswer, setRevealAnswer] = useState(false)
 
   const audioElement = useRef(null)
+
+  const [questionsRemaining, setQuestionsRemaining] = useState(10)
 
   useEffect(() => {
     if (gameStart) {
       audioElement.current = new Audio("/audio/Pokemon-intro.mp3")
       audioElement.current.loop = true
-      audioElement.current.volume = 0.2
+      //   audioElement.current.volume = 0.2
+      audioElement.current.volume = 0
       audioElement.current.play()
       return () => {
         audioElement.current.pause()
@@ -77,6 +79,7 @@ export default function Wordwall() {
   useEffect(() => {
     generateBoxes(20).then(res => setGrid(res))
     generateRevealOrder(20).then(res => setToReveal(res))
+    setRevealAnswer(false)
   }, [])
 
   const toRevealRef = useRef()
@@ -111,6 +114,7 @@ export default function Wordwall() {
         startCountdown(timer, startValue)
         generateBoxes(20).then(res => setGrid(res))
         generateRevealOrder(20).then(res => setToReveal(res))
+        setRevealAnswer(false)
       }, 1000)
     })
 
@@ -160,17 +164,18 @@ export default function Wordwall() {
           Number(timer.getTimeValues().toString(timerData).split(":").join(""))
       )
       setCorrectAnswer(true)
-      pauseTimer(timer)
-      revealAllBoxes()
     } else {
       setWrongAnswer(true)
-      pauseTimer(timer)
-      revealAllBoxes()
     }
+    pauseTimer(timer)
+    revealAllBoxes()
+
+    setIsDisabled(true)
 
     setTimeout(async () => {
       generateBoxes(20).then(res => setGrid(res))
       generateRevealOrder(20).then(res => setToReveal(res))
+      setRevealAnswer(false)
       const data = await fetchRandomPokemon()
       setPokemon(data)
       generatePokemonOptions(data)
@@ -178,6 +183,7 @@ export default function Wordwall() {
       setWrongAnswer(false)
       resetTimer(timer)
       startCountdown(timer, startValue)
+      setIsDisabled(false)
     }, 1000)
   }
 
@@ -211,6 +217,7 @@ export default function Wordwall() {
     generateBoxes(20).then(res => setGrid(res))
     generateRevealOrder(20).then(res => setToReveal(res))
     setTotalScore(0)
+    setRevealAnswer(false)
   }
 
   const revealAllBoxes = () => {
@@ -220,11 +227,12 @@ export default function Wordwall() {
       newGrid.push({ colour: `rgba(0, 0, 0, 0)` })
     })
     setGrid(newGrid)
+    setRevealAnswer(true)
   }
 
   return (
-    <section className="wordwall">
-      <h1>Wordwall</h1>
+    <section className={styles.wordwall}>
+      <h1>Who's that Pokemon?</h1>
       <Link to="/">exit</Link>
       <ScoreTimer
         timer={timer}
@@ -235,17 +243,18 @@ export default function Wordwall() {
       {gameStart ? (
         <div className="game">
           <button onClick={handleRestart}>Restart</button>
-          <h2>Who's that Pokemon?</h2>
-          {correctAnswer && <h3>Correct!</h3>}
-          {wrongAnswer && <h3>Wrong!</h3>}
-          {outOfTime && <h3>Out of time!</h3>}
+          <div></div>
+          {/* <h2>Who's that Pokemon?</h2> */}
           {pokemon && (
             <PokemonCard pokemon={pokemon} timer={timer} grid={grid} />
           )}
           <div></div>
-
           {pokemonOptions.map(option => (
-            <button key={option.name} onClick={handleAnswer}>
+            <button
+              key={option.name}
+              disabled={isDisabled}
+              onClick={handleAnswer}
+            >
               {option.name}
             </button>
           ))}
@@ -269,6 +278,17 @@ export default function Wordwall() {
               }}
             ></i>
           </div>
+          {correctAnswer && <h3>Correct!</h3>}
+          {wrongAnswer && <h3>Wrong!</h3>}
+          {outOfTime && <h3>Out of time!</h3>}
+          {revealAnswer && (
+            <>
+              <h3>It's {pokemon.name}</h3>
+              {/* <h4>
+                {pokemon.name}, {pokemon.name}!
+              </h4> */}
+            </>
+          )}
         </div>
       ) : (
         <>

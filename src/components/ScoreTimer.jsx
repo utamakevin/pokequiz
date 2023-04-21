@@ -22,6 +22,7 @@ export default function ScoreTimer({
       </div>
       <div className={css.scoreWrapper}>
         <p>Score: {totalScore}</p>
+        <p>Question {}/10</p>
         <div
           //   type="text"
           value={Number(
