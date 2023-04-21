@@ -34,10 +34,16 @@ p {
   height: 150px;
   margin-top: -75px; /* Half the height */
   margin-left: -75px; /* Half the width */
-  animation-name: spin;
-  animation-duration: 5000ms;
+  /* animation-name: spin; */
   animation-iteration-count: infinite;
-  animation-timing-function: linear; 
+  /* animation-timing-function: linear; */
+}
+
+.logo:hover {
+  animation-name: spin;
+  animation-duration: 500ms;
+  animation-timing-function:cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-iteration-count: 1;
 }
 
 /* div {
