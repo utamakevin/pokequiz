@@ -142,11 +142,10 @@ export default function Wordwall() {
         <div className="game">
           <button onClick={handleRestart}>Restart</button>
           <h2>Who's that Pokemon?</h2>
-          {pokemon && <PokemonCard pokemon={pokemon} timer={timer} />}
           {correctAnswer && <h3>Correct!</h3>}
           {wrongAnswer && <h3>Wrong!</h3>}
           {outOfTime && <h3>Out of time!</h3>}
-          {pokemon && <PokemonCard pokemon={pokemon} />}
+          {pokemon && <PokemonCard pokemon={pokemon} timer={timer} />}
           <div></div>
 
           {pokemonOptions.map(option => (
