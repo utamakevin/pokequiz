@@ -1,0 +1,49 @@
+.pokemonCard {
+  display: inline-block;
+  margin: 10px;
+  /* margin: auto; */
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  /* background-color: white; */
+  padding: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pokemonCard h3 {
+  margin: 0;
+  padding: 8px;
+  font-size: 36px;
+  align-self: end;
+  display: grid;
+  bottom: 0%;
+}
+
+.pokemonImage {
+  /* width: 100%; */
+  min-width: 300px;
+  min-height: 300px;
+  background-size: contain;
+  height: auto;
+  aspect-ratio: 1/1;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  z-index: 0;
+}
+
+.blackBox {
+  display: grid;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  /* background-color: rgba(0, 0, 0, 1); */
+  width: 100%;
+  aspect-ratio: 1/1;
+  z-index: 1;
+  margin: auto;
+  align-content: center;
+  border: 1px solid white;
+}
+
+.blackBox:click {
+  background-color: none;
+}
