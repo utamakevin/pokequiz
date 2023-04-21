@@ -1,12 +1,7 @@
 import css from "./PokemonCard.module.css"
 import BlackGrid from "./BlackGrid"
 
-const PokemonCard = ({ pokemon, timer }) => {
-  const grid = "blackBox,"
-    .repeat(20 * 20)
-    .split(",")
-    .slice(0, -1)
-
+const PokemonCard = ({ pokemon, timer, grid }) => {
   return (
     <div className={css.pokemonCard}>
       {pokemon ? (
@@ -18,7 +13,7 @@ const PokemonCard = ({ pokemon, timer }) => {
             }}
           >
             {grid.map((box, index) => (
-              <BlackGrid key={index} timer={timer} />
+              <BlackGrid key={index} timer={timer} colour={box.colour} />
             ))}
           </div>
           <h3>{pokemon.name}</h3>
