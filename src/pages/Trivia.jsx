@@ -29,14 +29,22 @@ export default function Trivia() {
   return (
     <main className={css.triviaWrapper}>
       <h1>Trivia</h1>
-      <Link to="/">
-        exit
-      </Link>
+      <Link to="/" className={css.exit}>Exit</Link>
       <section>
         <TriviaQuestion question={question} />
-        {isRevealed && <TriviaAnswer question={question} />}
-        <button onClick={handleNewQ}>New Question</button>
-        <button onClick={handleReveal}>Reveal Answer</button>
+        {isRevealed && (
+          <div className={css.answer}>
+            <TriviaAnswer question={question} />
+          </div>
+        )}
+        <div className={css.buttons}>
+          <button className={css.button} onClick={handleNewQ}>
+            New Question
+          </button>
+          <button className={css.button} onClick={handleReveal}>
+            Reveal Answer
+          </button>
+        </div>
       </section>
     </main>
   )
