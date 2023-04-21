@@ -31,12 +31,14 @@ export default function Trivia() {
       <h1>Trivia</h1>
       <Link to="/" className={css.exit}>Exit</Link>
       <section>
+        <div className={css.text}>
         <TriviaQuestion question={question} />
         {isRevealed && (
           <div className={css.answer}>
             <TriviaAnswer question={question} />
           </div>
         )}
+        </div>
         <div className={css.buttons}>
           <button className={css.button} onClick={handleNewQ}>
             New Question
