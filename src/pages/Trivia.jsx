@@ -67,7 +67,7 @@ export default function Trivia() {
 
   return (
     <main className={css.triviaWrapper}>
-      <h1>Trivia</h1>
+      <h1 className="game-title">Trivia</h1>
       <Link to="/" className={css.exit}>
         Exit
       </Link>

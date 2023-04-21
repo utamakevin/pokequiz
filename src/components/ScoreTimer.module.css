@@ -1,25 +1,37 @@
+.scoreTimeBoard {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  justify-content: space-between;
+  gap: 1em;
+  width: 80vw;
+  margin: auto;
+  max-width: 300px;
+  height: 15vh;
+}
+
 .timerWrapper {
-  display: inline-grid;
-  aspect-ratio: 1/1;
-  background-color: aliceblue;
-  padding: 10px;
-  border-radius: 10px;
-  border: 2px solid black;
+  display: grid;
+  margin: auto;
+  width: fit-content;
+  align-self: center;
+  /* gap: 1em; */
+  height: 100%;
 }
 
 .timerDisplay {
   font-family: Timer;
-  font-size: 300%;
+  font-size: 350%;
+  font-weight: normal;
   display: grid;
-  margin: auto;
-  border: 2px solid black;
-  padding: 10px;
-  text-align: center;
-  border-radius: 10px;
+  justify-content: end;
+  align-items: center;
+}
+
+.scoreWrapper {
+  display: grid;
 }
 
 .scoreWrapper div {
-  /* text-align: left; */
   display: none;
 }
 
@@ -33,5 +45,55 @@
 .scoreWrapper p {
   margin-top: 0;
   margin-bottom: 0;
-  padding: 5px;
+  padding: 0px;
+  text-align: right;
+  font-size: 120%;
+}
+
+.navButton {
+  display: grid;
+  /* gap: 1em; */
+  align-items: center;
+}
+
+.navButton button {
+  font-size: 150%;
+  font-weight: bold;
+  background-color: #c55065;
+  height: 5vh;
+  max-height: 50px;
+  border-radius: 10px;
+  border: 2px solid whitesmoke;
+}
+
+.navButton button a {
+  color: black;
+  text-decoration: none;
+}
+
+.gameOverWrapper {
+  color: black;
+  height: 15vh;
+}
+.gameOverWrapper h1,
+.gameOverWrapper h3 {
+  font-size: 120%;
+  color: black;
+}
+
+.gameOverBtnWrapper {
+  display: inline-grid;
+  gap: 1em;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+}
+.gameOverBtn {
+  font-size: 120%;
+  font-weight: bold;
+  background-color: #c55065;
+  height: 4vh;
+  max-height: 50px;
+  border-radius: 10px;
+  border: 2px solid whitesmoke;
+  width: auto;
 }

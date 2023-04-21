@@ -29,16 +29,21 @@ input[type="range"]::-moz-range-thumb {
 
 .wordwall {
   color: black;
-}
-.wordwall h1 {
-  font-size: 200%;
+  background-color: #439373;
+  /* background-color: #c55065; */
+  /* background-color: #901100; */
+  /* background-color: #b56d97; */
+  /* background-color: #e57b89; */
+  height: auto;
+  min-height: 100vh;
+  font-weight: bold;
 }
 
-.wordwall h1,
+/* .wordwall h1,
 .wordwall h3,
 .wordwall h4 {
   color: black;
-}
+} */
 
 .wordwall h4 {
   font-style: italic;
@@ -50,13 +55,20 @@ input[type="range"]::-moz-range-thumb {
   justify-content: center;
   gap: 1em;
   margin-top: 1em;
-  /* max-width: 30%; */
-  /* align-items: center; */
-  /* text-align: center; */
 }
 
 .navButton button {
-  font-size: 100%;
+  font-size: 150%;
+  font-weight: bold;
+  background-color: #7d6592;
+  /* background-color: #ffe6d6; */
+  background-color: #c55065;
+  /* background-color: #00b29b; */
+  width: 40vw;
+  height: 5vh;
+  max-width: 300px;
+  max-height: 50px;
+  border-radius: 10px;
 }
 
 .navButton button a {
@@ -76,5 +88,32 @@ input[type="range"]::-moz-range-thumb {
 
 .optionsWrapper button {
   width: 100%;
+  height: 100%;
   font-size: 110%;
+  background-color: #2f7aeb;
+  border-radius: 10px;
+  font-weight: bold;
+  /* background-color: #00b29b; */
+}
+
+.instruction {
+  font-size: 130%;
+  display: grid;
+  margin-top: 10px;
+}
+
+.instructionWrapper {
+  margin-top: 2em;
+  height: 100%;
+}
+
+.note {
+  color: black;
+}
+
+.pokeName {
+  font-family: PokemonSolid;
+  -webkit-text-stroke: 1px rgb(54 92 166);
+  font-size: 120%;
+  color: rgb(228, 184, 11);
 }

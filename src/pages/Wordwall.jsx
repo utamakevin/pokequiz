@@ -11,7 +11,7 @@ import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
 import ScoreTimer from "../components/ScoreTimer"
 import "font-awesome/css/font-awesome.min.css"
-
+import { capitaliseFirstLetter } from "../utils/generalUtils"
 import {
   generateBoxes,
   generateRevealOrder,
@@ -26,6 +26,7 @@ const timer = new Timer()
 
 export default function Wordwall() {
   const [gameStart, setGameStart] = useState(false)
+  //   const [gameOver, setGameOver] = useState(true)
   const [gameOver, setGameOver] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
 
@@ -120,22 +121,26 @@ export default function Wordwall() {
       pauseTimer(timer)
       revealAllBoxes()
 
-      setTimeout(async () => {
-        const data = await fetchRandomPokemon()
-        setPokemon(data)
-        generatePokemonOptions(data)
-        setOutOfTime(false)
-        resetTimer(timer)
-        startCountdown(timer, startValue)
-        generateBoxes(20).then(res => setGrid(res))
-        generateRevealOrder(20).then(res => setToReveal(res))
-        setRevealAnswer(false)
-        setQuestionNumber(qNumRef.current + 1)
-      }, 1000)
+      if (qNumRef.current >= 10) {
+        setGameOver(true)
+      } else {
+        setTimeout(async () => {
+          const data = await fetchRandomPokemon()
+          setPokemon(data)
+          generatePokemonOptions(data)
+          setOutOfTime(false)
+          resetTimer(timer)
+          startCountdown(timer, startValue)
+          generateBoxes(20).then(res => setGrid(res))
+          generateRevealOrder(20).then(res => setToReveal(res))
+          setRevealAnswer(false)
+          setQuestionNumber(qNumRef.current + 1)
+        }, 1000)
+      }
     })
 
     timer.addEventListener("secondTenthsUpdated", async () => {
-      let maxScore = 40 * 10 // 10 seconds
+      let maxScore = 60 * 10 // 60 seconds
       let maxBoxes = 20 * 20 // 400 boxes
 
       let score = Number(
@@ -212,7 +217,7 @@ export default function Wordwall() {
     days: 0,
     hours: 0,
     minutes: 0,
-    seconds: 40,
+    seconds: 60,
   })
   const [targetValue, setTargetValue] = useState({
     days: 0,
@@ -239,6 +244,8 @@ export default function Wordwall() {
     generateRevealOrder(20).then(res => setToReveal(res))
     setTotalScore(0)
     setRevealAnswer(false)
+    setGameOver(false)
+    setQuestionNumber(0)
   }
 
   const revealAllBoxes = () => {
@@ -253,7 +260,7 @@ export default function Wordwall() {
 
   return (
     <section className={styles.wordwall}>
-      <h1>Who's that Pokemon?</h1>
+      <h1 className="game-title">Who's that Pokemon?</h1>
       {gameOver ? (
         <WordWallResult totalScore={totalScore} handleRestart={handleRestart} />
       ) : (
@@ -263,6 +270,9 @@ export default function Wordwall() {
           totalScore={totalScore}
           handleCurrentScore={handleCurrentScore}
           questionNumber={questionNumber}
+          handleRestart={handleRestart}
+          handleGameStart={handleGameStart}
+          gameStart={gameStart}
         />
       )}
 
@@ -280,7 +290,7 @@ export default function Wordwall() {
                 disabled={isDisabled}
                 onClick={handleAnswer}
               >
-                {option.name}
+                {capitaliseFirstLetter(option.name)}
               </button>
             ))}
           </section>
@@ -304,12 +314,16 @@ export default function Wordwall() {
               }}
             ></i>
           </div>
-          {correctAnswer && <h3>Correct!</h3>}
-          {wrongAnswer && <h3>Wrong!</h3>}
-          {outOfTime && <h3>Out of time!</h3>}
+          {correctAnswer && <h3 className={styles.note}>Correct! It's </h3>}
+          {wrongAnswer && <h3 className={styles.note}>Wrong! It's </h3>}
+          {outOfTime && <h3 className={styles.note}>Out of time! It's </h3>}
           {revealAnswer && (
             <>
-              <h3>It's {pokemon.name}</h3>
+              <h3 className={styles.note}>
+                <span className={styles.pokeName}>
+                  {capitaliseFirstLetter(pokemon.name)}
+                </span>
+              </h3>
               {/* <h4>
                 {pokemon.name}, {pokemon.name}!
               </h4> */}
@@ -317,14 +331,16 @@ export default function Wordwall() {
           )}
         </div>
       ) : (
-        <>
-          <p>
-            Guess which Pokemon is displayed on the screen. The quicker the
-            answer, the bigger the score.
-          </p>
-        </>
+        <section className={styles.instructionWrapper}>
+          <span className={styles.instruction}>
+            Guess which Pokemon is displayed on the screen.
+          </span>
+          <span className={styles.instruction}>
+            The quicker the answer, the bigger the score.
+          </span>
+        </section>
       )}
-      <section className={styles.navButton}>
+      {/* <section className={styles.navButton}>
         {gameStart ? (
           <button onClick={handleRestart}>Restart</button>
         ) : (
@@ -333,7 +349,7 @@ export default function Wordwall() {
         <button>
           <Link to="/">Exit</Link>
         </button>
-      </section>
+      </section> */}
     </section>
   )
 }

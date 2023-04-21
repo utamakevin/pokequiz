@@ -8,7 +8,7 @@
   overflow: hidden;
   /* background-color: white; */
   padding: 16px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
 .pokemonCard h3 {
@@ -21,8 +21,8 @@
 }
 
 .pokemonImage {
-  min-width: 300px;
-  min-height: 300px;
+  min-width: 250px;
+  min-height: 250px;
   background-size: contain;
   height: auto;
   aspect-ratio: 1/1;
@@ -40,7 +40,7 @@
   z-index: 1;
   margin: auto;
   align-content: center;
-  border: 0.5px solid white;
+  border: 0.5px solid rgba(255, 255, 255, 0.7);
 }
 
 .blackBox:click {
