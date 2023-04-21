@@ -46,6 +46,12 @@ async function getRandomQuestion() {
       endpointCat: "randomSpecies",
       category: "habitat",
     },
+    {
+      id: 6,
+      name: "Which Pokémon is the pre-evolution of $?",
+      endpointCat: "randomSpecies",
+      category: "evolution",
+    },
   ]
 
   let randomQ = questionList[getRandomNumber(questionList.length)]
@@ -102,22 +108,31 @@ async function processQuestion(question) {
       data.question2 = `options: cave, forest, grassland, mountain, rare, rough-terrain, sea, urban, waters-edge`
       data.answer = res.habitat.name
     }
+    if (question.id === 6) {
+      data.question = question.name.replace(/\$/, res.name)
+      data.question2 = `If it can't evolve, answer with its own name"`
+
+      function getEvolution() {
+        return fetch(res.evolution_chain.url).then(res => res.json())
+      }
+
+      let evo = await getEvolution()
+      const prevEvolution = evo.chain
+
+      while (
+        prevEvolution.evolves_to.length > 0 &&
+        prevEvolution.evolves_to[0].species.name !== res.name
+      ) {
+        prevEvolution = prevEvolution.evolves_to[0]
+      }
+
+      if (prevEvolution.species.name !== res.name) {
+        data.answer = prevEvolution.species.name
+      } else {
+        data.answer = "trick question!"
+      }
+    }
   }
-  //   if (question.endpointCat === `randomLocation`) {
-  //     await randomLocation().then(res => {
-  //       let promise = new Promise(function (myResolve, myReject) {
-  //         myResolve(fetch(res))
-  //       })
-
-  //       if (question.id === 6) {
-  //         promise.then(res => {
-  //           data.question = question.name.replace(/\$/, res.name)
-  //           data.answer = res.habitat.name
-  //         })
-  //       }
-
-  //     })
-  //   }
 
   return data
 }
