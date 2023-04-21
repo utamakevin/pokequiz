@@ -3,11 +3,17 @@ import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 import fetchGen1 from "../utils/fetchGen1"
+
+import { useEffect } from "react"
+import { useRef } from "react"
+
 import { Link } from "react-router-dom"
+
 
 import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
 import ScoreTimer from "../components/ScoreTimer"
+import "font-awesome/css/font-awesome.min.css"
 // import { startCountdown } from "../utils/timerFunctions"
 
 import {
@@ -33,6 +39,34 @@ export default function Wordwall() {
   const [wrongAnswer, setWrongAnswer] = useState(false)
 
   const [outOfTime, setOutOfTime] = useState(false)
+
+  const [isMuted, setIsMuted] = useState(false)
+
+  const audioElement = useRef(null)
+
+  useEffect(() => {
+    if (gameStart) {
+      audioElement.current = new Audio("/audio/Pokemon-intro.mp3")
+      audioElement.current.loop = true
+      audioElement.current.play()
+      return () => {
+        audioElement.current.pause()
+      }
+    }
+  }, [gameStart])
+
+  const toggleMute = () => {
+    if (audioElement.current) {
+      audioElement.current.muted = !audioElement.current.muted
+      setIsMuted(!isMuted)
+    }
+  }
+
+  const handleVolumeChange = e => {
+    if (audioElement.current) {
+      audioElement.current.volume = e.target.value
+    }
+  }
 
   const handleClick = async () => {
     setGameStart(true)
@@ -157,6 +191,26 @@ export default function Wordwall() {
               {option.name}
             </button>
           ))}
+          <div className="volume-mixer">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              onChange={handleVolumeChange}
+              defaultValue="1"
+              style={{ verticalAlign: "middle", width: "100px" }}
+            />
+            <i
+              className={`fa ${isMuted ? "fa-volume-off" : "fa-volume-up"}`}
+              onClick={toggleMute}
+              style={{
+                fontSize: "24px",
+                cursor: "pointer",
+                marginRight: "10px",
+              }}
+            ></i>
+          </div>
         </div>
       ) : (
         <>
