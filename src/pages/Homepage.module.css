@@ -1,3 +1,27 @@
-.gameLink {
+.main {
+  height: 100%;
+}
+
+.wordwall,
+.trivia {
+  height: 50%;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.wordwall {
   display: grid;
+  background-color: #ff9671;
+  align-items: center;
+}
+
+.trivia {
+  display: grid;
+  background-color: #ff6f91;
+  align-items: center;
+}
+
+p {
+  margin: 0;
+  padding: 50px;
 }

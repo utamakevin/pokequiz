@@ -3,6 +3,7 @@ import PokemonCard from "./../components/PokemonCard"
 import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 import fetchGen1 from "../utils/fetchGen1"
+import { Link } from "react-router-dom"
 
 import useTimer from "easytimer-react-hook"
 import { Timer } from "easytimer.js"
@@ -132,6 +133,9 @@ export default function Wordwall() {
   return (
     <section className="wordwall">
       <h1>Wordwall</h1>
+      <Link to="/">
+        exit
+      </Link>
       <ScoreTimer
         timer={timer}
         startValue={startValue}
