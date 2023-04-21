@@ -26,3 +26,17 @@ input[type="range"]::-moz-range-thumb {
   background-size: 100% 100%;
   cursor: pointer;
 }
+
+.wordwall {
+  color: black;
+}
+
+.wordwall h1,
+h3,
+h4 {
+  color: black;
+}
+
+.wordwall h4 {
+  font-style: italic;
+}
