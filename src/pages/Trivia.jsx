@@ -1,10 +1,15 @@
 import css from "./Trivia.module.css"
 import fetchGen1 from "../utils/fetchGen1"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import generateQuestion from "../utils/generateQuestion"
 import TriviaQuestion from "../components/TriviaQuestion"
 import TriviaAnswer from "../components/TriviaAnswer"
 import { Link } from "react-router-dom"
+import {
+  capitaliseFirstLetter,
+  getRandomElement,
+  getRandomNumber,
+} from "../utils/generalUtils"
 
 export default function Trivia() {
   const [genOne, setGenOne] = useState([])
@@ -20,39 +25,70 @@ export default function Trivia() {
 
   const initialSetup = async () => {
     const genOneData = await fetchGen1()
+    genOneData.push("Trick question!")
     setGenOne(genOneData)
-
-    if (genOneData && genOneData.length > 0) {
-      await handleNewQ()
-    }
+    handleNewQ(genOneData)
   }
 
-  const handleNewQ = async () => {
-    if (!genOne || genOne.length === 0) {
-      return
-    }
-
+  const handleNewQ = async pokeData => {
     setIsRevealed(false)
     const newQuestion = await generateQuestion()
     setQuestion(newQuestion)
+    generateAnswer(newQuestion, pokeData)
+  }
 
-    const newOptions = [newQuestion.answer]
-    while (newOptions.length < 3) {
-      const randomIndex = Math.floor(Math.random() * genOne.length)
-      const randomOption = genOne[randomIndex].name
-      if (!newOptions.includes(randomOption)) {
-        newOptions.push(randomOption)
+  const generateAnswer = (question, pokeData) => {
+    let answer = question.answer
+    const newOptions = []
+    if (typeof answer === `string`) {
+      newOptions.push(capitaliseFirstLetter(answer))
+    } else {
+      newOptions.push(answer)
+    }
+    const habitats = [
+      `Cave`,
+      `Forest`,
+      `Grassland`,
+      `Mountain`,
+      `Rare`,
+      `Rough-terrain`,
+      `Sea`,
+      `Urban`,
+      `Waters-edge`,
+    ]
+    const nameGroup = [1, 3, 4, 6]
+    const pokedexGroup = [2]
+    const habitatGroup = [5]
+
+    function checkOption(option) {
+      if (!newOptions.includes(option)) {
+        newOptions.push(option)
       }
     }
 
+    if (nameGroup.includes(question.id)) {
+      while (newOptions.length < 3) {
+        const randomOption = capitaliseFirstLetter(
+          getRandomElement(pokeData).name
+        )
+        checkOption(randomOption)
+      }
+    }
+    if (pokedexGroup.includes(question.id)) {
+      while (newOptions.length < 3) {
+        const randomOption = getRandomNumber(151) + 1
+        checkOption(randomOption)
+      }
+    }
+    if (habitatGroup.includes(question.id)) {
+      while (newOptions.length < 3) {
+        const randomOption = capitaliseFirstLetter(getRandomElement(habitats))
+
+        checkOption(randomOption)
+      }
+    }
     setOptions(newOptions.sort(() => Math.random() - 0.5))
   }
-  // to here is a little unstable on reload or if you
-  // go exit then go back into the game it will not
-  // display multiple choice options
-  // most likely cause is because the genOne is not yet populated with data when the component first renders,
-  // causing the randomOption line to throw an error when trying to access the name property.
-  // saving the vsc code can make it work again
 
   const checkAnswer = selectedOption => {
     if (selectedOption === question.answer) {
@@ -61,7 +97,7 @@ export default function Trivia() {
       setFeedback("Wrong!")
     }
     setTimeout(() => {
-      handleNewQ()
+      handleNewQ(genOne)
     }, 1000)
   }
 

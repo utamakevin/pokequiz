@@ -60,32 +60,36 @@ async function getRandomQuestion() {
 
 async function processQuestion(question) {
   let data = {}
+  console.log(question.id)
+
   if (question.endpointCat === `randomSpecies`) {
     let res = await randomSpecies()
+    function getEvolution() {
+      return fetch(res.evolution_chain.url).then(res => res.json())
+    }
 
     if (question.id === 1) {
+      data.id = question.id
       data.question = question.name.replace(/\$/, res.id)
       data.answer = res.name
     }
     if (question.id === 2) {
+      data.id = question.id
       data.question = question.name.replace(/\$/, res.name)
       data.answer = res.id
     }
 
     if (question.id === 3) {
+      data.id = question.id
       data.question = question.name.replace(/\$/, res.name)
-      data.question2 = `If it can't evolve, answer with its own name"`
+      //   data.question2 = `If it can't evolve, answer with its own name"`
 
-      function getEvolution() {
-        return fetch(res.evolution_chain.url).then(res => res.json())
-      }
-
-      let evo = await getEvolution()
+      const evo = await getEvolution()
       const evolutionArr = evo.chain.evolves_to
       if (evolutionArr.length > 0) {
         data.answer = evolutionArr[0].species.name
       } else {
-        data.answer = "trick question!"
+        data.answer = "Trick question!"
       }
     }
     if (question.id === 4) {
@@ -96,7 +100,7 @@ async function processQuestion(question) {
           englishBlueFlavour = flavour.flavor_text.split("\n").join(" ")
         }
       }
-
+      data.id = question.id
       data.question = question.name.split("\n")[0]
       data.question2 = `"${
         question.name.replace(/\$/, englishBlueFlavour).split("\n")[1]
@@ -104,19 +108,17 @@ async function processQuestion(question) {
       data.answer = res.name
     }
     if (question.id === 5) {
+      data.id = question.id
       data.question = question.name.replace(/\$/, res.name)
-      data.question2 = `options: cave, forest, grassland, mountain, rare, rough-terrain, sea, urban, waters-edge`
+      data.question2 = `options: Cave, Forest, Grassland, Mountain, Rare, Rough-terrain, Sea, urban, Waters-edge`
       data.answer = res.habitat.name
     }
     if (question.id === 6) {
+      data.id = question.id
       data.question = question.name.replace(/\$/, res.name)
       data.question2 = `If it can't evolve, answer with its own name"`
 
-      function getEvolution() {
-        return fetch(res.evolution_chain.url).then(res => res.json())
-      }
-
-      let evo = await getEvolution()
+      const evo = await getEvolution()
       const prevEvolution = evo.chain
 
       while (
