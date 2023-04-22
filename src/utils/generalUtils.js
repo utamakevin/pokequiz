@@ -6,6 +6,7 @@ export function getRandomNumber(number) {
 }
 
 export function capitaliseFirstLetter(string) {
+  // string = string.toString()
   let first = string[0].toUpperCase()
   return first + string.slice(1)
 }
