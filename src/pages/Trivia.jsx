@@ -92,12 +92,15 @@ export default function Trivia() {
 
   const checkAnswer = selectedOption => {
     if (selectedOption === question.answer) {
+      setIsRevealed(true)
       setFeedback("Correct!")
     } else {
+      setIsRevealed(true)
       setFeedback("Wrong!")
     }
     setTimeout(() => {
       handleNewQ(genOne)
+      setIsRevealed(false)
     }, 1000)
   }
 
@@ -112,11 +115,11 @@ export default function Trivia() {
           <TriviaQuestion question={question} />
           {isRevealed && (
             <div className={css.answer}>
+              <div className={css.feedback}>{feedback}</div>
               <TriviaAnswer question={question} />
             </div>
           )}
         </div>
-        <div className={css.feedback}>{feedback}</div>
         <div className={css.buttons}>
           {options.map(option => (
             <button

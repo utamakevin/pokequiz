@@ -178,7 +178,7 @@ export default function Wordwall() {
 
   const handleAnswer = e => {
     const selectedOption = e.target.textContent
-    if (selectedOption === pokemon.name) {
+    if (selectedOption === capitaliseFirstLetter(pokemon.name)) {
       setTotalScore(
         prevScore =>
           prevScore +
@@ -284,18 +284,8 @@ export default function Wordwall() {
             <PokemonCard pokemon={pokemon} timer={timer} grid={grid} />
           )}
           <div></div>
-          <section className={styles.optionsWrapper}>
-            {pokemonOptions.map(option => (
-              <button
-                key={option.name}
-                disabled={isDisabled}
-                onClick={handleAnswer}
-              >
-                {capitaliseFirstLetter(option.name)}
-              </button>
-            ))}
-          </section>
-          <div className={styles["volume-mixer"]}>
+
+          <div className={`${styles["volume-mixer"]} ${styles.volumeWrapper}`}>
             <input
               type="range"
               min="0"
@@ -315,21 +305,35 @@ export default function Wordwall() {
               }}
             ></i>
           </div>
-          {correctAnswer && <h3 className={styles.note}>Correct! It's </h3>}
-          {wrongAnswer && <h3 className={styles.note}>Wrong! It's </h3>}
-          {outOfTime && <h3 className={styles.note}>Out of time! It's </h3>}
-          {revealAnswer && (
-            <>
-              <h3 className={styles.note}>
-                <span className={styles.pokeName}>
-                  {capitaliseFirstLetter(pokemon.name)}
-                </span>
-              </h3>
-              {/* <h4>
+          <section className={styles.noteWrapper}>
+            {correctAnswer && <h3 className={styles.note}>Correct! It's </h3>}
+            {wrongAnswer && <h3 className={styles.note}>Wrong! It's </h3>}
+            {outOfTime && <h3 className={styles.note}>Out of time! It's </h3>}
+            {revealAnswer && (
+              <>
+                <h3 className={styles.note}>
+                  <span className={styles.pokeName}>
+                    {capitaliseFirstLetter(pokemon.name)}
+                  </span>
+                </h3>
+                {/* <h4>
                 {pokemon.name}, {pokemon.name}!
               </h4> */}
-            </>
-          )}
+              </>
+            )}
+          </section>
+
+          <section className={styles.optionsWrapper}>
+            {pokemonOptions.map(option => (
+              <button
+                key={option.name}
+                disabled={isDisabled}
+                onClick={handleAnswer}
+              >
+                {capitaliseFirstLetter(option.name)}
+              </button>
+            ))}
+          </section>
         </div>
       ) : (
         <section className={styles.instructionWrapper}>

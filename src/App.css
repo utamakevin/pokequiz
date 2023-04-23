@@ -31,3 +31,9 @@ body {
   color: rgb(228, 184, 11);
   text-shadow: 10px solid black;
 }
+
+@media only screen and (min-width: 800px) {
+  .game-title {
+    font-size: 300%;
+  }
+}
