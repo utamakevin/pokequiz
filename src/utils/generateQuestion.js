@@ -1,3 +1,5 @@
+import { capitaliseFirstLetter } from "./generalUtils"
+
 export function getRandomNumber(number) {
   return Math.floor(Math.random() * number)
 }
@@ -71,23 +73,29 @@ async function processQuestion(question) {
     if (question.id === 1) {
       data.id = question.id
       data.question = question.name.replace(/\$/, res.id)
-      data.answer = res.name
+      data.answer = capitaliseFirstLetter(res.name)
     }
     if (question.id === 2) {
       data.id = question.id
-      data.question = question.name.replace(/\$/, res.name)
+      data.question = question.name.replace(
+        /\$/,
+        capitaliseFirstLetter(res.name)
+      )
       data.answer = res.id
     }
 
     if (question.id === 3) {
       data.id = question.id
-      data.question = question.name.replace(/\$/, res.name)
+      data.question = question.name.replace(
+        /\$/,
+        capitaliseFirstLetter(res.name)
+      )
       //   data.question2 = `If it can't evolve, answer with its own name"`
 
       const evo = await getEvolution()
       const evolutionArr = evo.chain.evolves_to
       if (evolutionArr.length > 0) {
-        data.answer = evolutionArr[0].species.name
+        data.answer = capitaliseFirstLetter(evolutionArr[0].species.name)
       } else {
         data.answer = "Trick question!"
       }
@@ -105,7 +113,7 @@ async function processQuestion(question) {
       data.question2 = `"${
         question.name.replace(/\$/, englishBlueFlavour).split("\n")[1]
       }"`
-      data.answer = res.name
+      data.answer = capitaliseFirstLetter(res.name)
     }
     if (question.id === 5) {
       data.id = question.id
@@ -115,7 +123,10 @@ async function processQuestion(question) {
     }
     if (question.id === 6) {
       data.id = question.id
-      data.question = question.name.replace(/\$/, res.name)
+      data.question = question.name.replace(
+        /\$/,
+        capitaliseFirstLetter(res.name)
+      )
       data.question2 = `If it can't evolve, answer with its own name"`
 
       const evo = await getEvolution()
@@ -129,7 +140,7 @@ async function processQuestion(question) {
       }
 
       if (prevEvolution.species.name !== res.name) {
-        data.answer = prevEvolution.species.name
+        data.answer = capitaliseFirstLetter(prevEvolution.species.name)
       } else {
         data.answer = "trick question!"
       }
