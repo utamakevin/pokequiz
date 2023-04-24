@@ -222,7 +222,7 @@ export default function Trivia() {
 
   return (
     <main className={css.triviaWrapper}>
-      <h1 className="game-title">Trivia</h1>
+      <h1 className="game-title">Pokémon Trivia</h1>
       {gameOver ? (
         <TriviaResult totalScore={totalScore} handleRestart={handleRestart} />
       ) : (
