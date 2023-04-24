@@ -7,7 +7,7 @@ export default function WordWallLeaderboard() {
   const [leaderboard, setLeaderboard] = useState([])
 
   useEffect(() => {
-    fetch("/api/pokequiz/wordWallLeaderboard/")
+    fetch("https://pokequiz-api.onrender.com/api/pokequiz/wordWallLeaderboard/")
       .then(res => res.json())
       .then(setLeaderboard)
   }, [])
