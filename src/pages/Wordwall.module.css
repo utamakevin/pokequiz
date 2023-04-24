@@ -87,24 +87,44 @@ input[type="range"]::-moz-range-thumb {
   margin: auto;
   justify-content: center;
   gap: 10px;
-  width: 80%;
-  /* max-width: 800px; */
   grid-template-columns: 1fr 1fr;
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 10vh;
+  width: 80%;
+  margin-left: 20%;
 }
 
 .optionsWrapper button {
-  width: 100%;
-  height: 100%;
-  font-size: 110%;
-  background-color: #2f7aeb;
-  border-radius: 10px;
-  font-weight: bold;
-  /* background-color: #00b29b; */
+  margin-top: 2px;
+  appearance: none;
+  background-color: #000000;
+  border: 2px solid #1a1a1a;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 50px;
+  min-width: 0;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 50%;
+  height: 50px;
+  will-change: transform;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+  align-self: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .instruction {
@@ -114,8 +134,19 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .instructionWrapper {
-  margin-top: 2em;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  width: 50%;
+  margin-left: 25%;
+  padding-bottom: 50px;
 }
 
 .note {
