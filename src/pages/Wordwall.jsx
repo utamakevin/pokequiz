@@ -146,7 +146,7 @@ export default function Wordwall() {
       let score = Number(
         timer.getTimeValues().toString(timerData).split(":").join("")
       )
-      let scoreFr = (score + 1) / maxScore //to ensure first iteration
+      let scoreFr = (score + 1) / maxScore //+1 to ensure first iteration
       let boxToRevealFr = toRevealRef.current.length / maxBoxes
       let revealIdx = toRevealRef.current[0]
 

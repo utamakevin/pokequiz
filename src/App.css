@@ -32,6 +32,10 @@ body {
   text-shadow: 10px solid black;
 }
 
+button {
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 800px) {
   .game-title {
     font-size: 300%;
