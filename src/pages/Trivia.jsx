@@ -23,7 +23,6 @@ import {
   stopTimer,
 } from "../utils/timerFunctions"
 import TriviaResult from "../components/TriviaResult"
-const timer = new Timer()
 
 export default function Trivia() {
   const [genOne, setGenOne] = useState([])
@@ -38,13 +37,33 @@ export default function Trivia() {
 
   const [gameOver, setGameOver] = useState(false)
   const [outOfTime, setOutOfTime] = useState(false)
+  const [gameStarted, setGameStarted] = useState(false)
 
   const qNumRef = useRef()
   qNumRef.current = questionNumber
 
-  // from here
   useEffect(() => {
     initialSetup()
+
+    timer.addEventListener("targetAchieved", async () => {
+      setOutOfTime(true)
+      pauseTimer(timer)
+
+      if (qNumRef.current >= 10) {
+        setGameOver(true)
+      } else {
+        setTimeout(() => {
+          setOutOfTime(false)
+          resetTimer(timer)
+          startCountdown(timer, startValue)
+          setQuestionNumber(qNumRef.current + 1)
+        }, 1000)
+      }
+    })
+
+    return () => {
+      timer.removeEventListener("targetAchieved")
+    }
   }, [])
 
   const initialSetup = async () => {
@@ -170,11 +189,9 @@ export default function Trivia() {
   })
 
   const handleGameStart = () => {
+    setGameStarted(true)
     startCountdown(timer, startValue)
     setQuestionNumber(qNumRef.current + 1)
-
-    setIsRevealed(false)
-    setQuestionNumber(0)
 
     timer.addEventListener("targetAchieved", async () => {
       setOutOfTime(true)
@@ -184,6 +201,8 @@ export default function Trivia() {
         setGameOver(true)
       } else {
         setTimeout(() => {
+          handleNewQ(genOne)
+          setIsRevealed(false)
           setOutOfTime(false)
           resetTimer(timer)
           startCountdown(timer, startValue)
@@ -213,36 +232,43 @@ export default function Trivia() {
           totalScore={totalScore}
           handleCurrentScore={handleCurrentScore}
           questionNumber={questionNumber}
-          // handleRestart={handleRestart}
           handleGameStart={handleGameStart}
-          // gameStart={gameStart}
         />
       )}
-      {/* <Link to="/" className={css.exit}>
-        Exit
-      </Link> */}
-      <section>
-        <div className={css.text}>
-          <TriviaQuestion question={question} />
-          {isRevealed && (
-            <div className={css.answer}>
-              <div className={css.feedback}>{feedback}</div>
-              <TriviaAnswer question={question} />
-            </div>
-          )}
+      {!gameStarted && (
+        <div className={css.rules}>
+          <h2>Rules</h2>
+          <p>
+            You have 60 seconds to answer as many questions as possible. The
+            timer will start as soon as you click "Start."
+          </p>
         </div>
-        <div className={css.buttons}>
-          {options.map(option => (
-            <button
-              className={css.button}
-              key={option}
-              onClick={() => checkAnswer(option)}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </section>
+      )}
+      {gameStarted && (
+        <section>
+          <div className={css.text}>
+            <TriviaQuestion question={question} />
+            {isRevealed && (
+              <div className={css.answer}>
+                <div className={css.feedback}>{feedback}</div>
+                {outOfTime && <div className={css.feedback}>Out of Time!</div>}
+                <TriviaAnswer question={question} />
+              </div>
+            )}
+          </div>
+          <div className={css.buttons}>
+            {options.map(option => (
+              <button
+                className={css.button}
+                key={option}
+                onClick={() => checkAnswer(option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   )
 }
