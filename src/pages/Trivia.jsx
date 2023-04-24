@@ -236,12 +236,12 @@ export default function Trivia() {
         />
       )}
       {!gameStarted && (
-        <div className={css.rules}>
-          <h2>Rules</h2>
-          <p>
-            You have 60 seconds to answer as many questions as possible. The
-            timer will start as soon as you click "Start."
-          </p>
+        <div className={css.startRulesWrapper}>
+          <h2>Rules:</h2>
+          <ul>
+            <li>Press start to play!</li>
+            <li>You have 60 seconds to answer each quesiton!</li>
+          </ul>
         </div>
       )}
       {gameStarted && (

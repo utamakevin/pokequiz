@@ -10,6 +10,14 @@
   min-width: 250px;
   width: 25%;
   aspect-ratio: 1/1;
+  background-color: #000000;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  width: 50%;
+  margin-left: 25%;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
 }
 
 .timerWrapper {
@@ -28,7 +36,7 @@
   display: grid;
   justify-content: end;
   align-items: center;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .scoreWrapper {
@@ -61,18 +69,36 @@
 }
 
 .navButton button {
-  font-size: 150%;
+  font-size: 24px;
   font-weight: bold;
-  background-color: #c55065;
-  height: 5vh;
-  max-height: 50px;
+  background-color: #ff4a4a;
+  color: #ffffff;
+  height: 50px;
+  width: 200px;
   border-radius: 10px;
   border: 2px solid whitesmoke;
-  /* background-color: rgb(255, 74, 74); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 4px 6px;
+  transition: all 200ms ease-in-out;
+}
+
+.navButton button:hover {
+  background-color: #ff93a3;
+  transform: translateY(-2px);
+}
+
+.navButton button:active {
+  background-color: #a53d4f;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 2px 3px;
+  transform: translateY(0);
 }
 
 .navButton button a {
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none;
 }
 

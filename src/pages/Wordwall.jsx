@@ -336,6 +336,7 @@ export default function Wordwall() {
         </div>
       ) : (
         <section className={styles.instructionWrapper}>
+          <h2>Rules:</h2>
           <span className={styles.instruction}>
             Guess which Pokemon is displayed on the screen.
           </span>
