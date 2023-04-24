@@ -33,3 +33,7 @@ The back end of this app consists of API routes that makes leaderboards possible
 
 ### Database: Made with PostgreSQL
 The database is made with PostgreSQL with each leaderboard having their own table. Each of these tables records the entry's IDs, username and score. Upon request, the database will fetch the list of scores in descending order to be shown on the leaderboard pages, limited to five entries. The database will also create an entry upon request made at the end of a game round, recording both the username and the score the user achieved on that particular attempt.
+
+## Credit
+This app was made by [Stefanus](https://github.com/Amingman), [Kevin](https://github.com/utamakevin) and [Mohammed](https://github.com/ta5one) within three days as a group project submission for General Assembly Software Enginnering Immersive Program in 2023.
+
