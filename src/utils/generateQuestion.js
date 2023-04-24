@@ -130,10 +130,11 @@ async function processQuestion(question) {
       data.question2 = `If it can't evolve, answer with its own name"`
 
       const evo = await getEvolution()
-      const prevEvolution = evo.chain
+      let prevEvolution = evo.chain
 
       while (
         prevEvolution.evolves_to.length > 0 &&
+        prevEvolution.evolves_to[0] &&
         prevEvolution.evolves_to[0].species.name !== res.name
       ) {
         prevEvolution = prevEvolution.evolves_to[0]
