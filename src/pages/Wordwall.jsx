@@ -4,6 +4,7 @@ import { useState } from "react"
 import fetchRandomPokemon from "./../utils/fetchRandomPokemon"
 import fetchGen1 from "../utils/fetchGen1"
 import styles from "./Wordwall.module.css"
+import Sound from "../components/Sound"
 
 import { Link } from "react-router-dom"
 
@@ -283,27 +284,11 @@ export default function Wordwall() {
             <PokemonCard pokemon={pokemon} timer={timer} grid={grid} />
           )}
           <div></div>
-
-          <div className={`${styles["volume-mixer"]} ${styles.volumeWrapper}`}>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              onChange={handleVolumeChange}
-              defaultValue="0.2"
-              style={{ verticalAlign: "middle", width: "100px" }}
-            />
-            <i
-              className={`fa ${isMuted ? "fa-volume-off" : "fa-volume-up"}`}
-              onClick={toggleMute}
-              style={{
-                fontSize: "24px",
-                cursor: "pointer",
-                marginRight: "10px",
-              }}
-            ></i>
-          </div>
+          <Sound
+            handleVolumeChange={handleVolumeChange}
+            isMuted={isMuted}
+            toggleMute={toggleMute}
+          />
           <section className={styles.noteWrapper}>
             {correctAnswer && <h3 className={styles.note}>Correct! It's </h3>}
             {wrongAnswer && <h3 className={styles.note}>Wrong! It's </h3>}

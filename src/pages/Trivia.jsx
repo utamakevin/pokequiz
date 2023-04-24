@@ -238,10 +238,10 @@ export default function Trivia() {
       {!gameStarted && (
         <div className={css.startRulesWrapper}>
           <h2>Rules:</h2>
-          <ul>
-            <li>Press start to play!</li>
-            <li>You have 60 seconds to answer each quesiton!</li>
-          </ul>
+          <span className={css.rules}>Press start to play!</span>
+          <span className={css.rules}>
+            You have 60 seconds to answer each quesiton!
+          </span>
         </div>
       )}
       {gameStarted && (
