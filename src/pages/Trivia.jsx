@@ -11,12 +11,29 @@ import {
   getRandomNumber,
 } from "../utils/generalUtils"
 
+import useTimer from "easytimer-react-hook"
+import { Timer } from "easytimer.js"
+import ScoreTimer from "../components/ScoreTimer"
+import {
+  generateBoxes,
+  generateRevealOrder,
+  pauseTimer,
+  resetTimer,
+  startCountdown,
+  stopTimer,
+} from "../utils/timerFunctions"
+const timer = new Timer()
+
 export default function Trivia() {
   const [genOne, setGenOne] = useState([])
   const [question, setQuestion] = useState("")
   const [options, setOptions] = useState([])
   const [isRevealed, setIsRevealed] = useState(false)
   const [feedback, setFeedback] = useState("")
+
+  const [currentScore, setCurrentScore] = useState(0)
+  const [totalScore, setTotalScore] = useState(0)
+  const [questionNumber, setQuestionNumber] = useState(0)
 
   // from here
   useEffect(() => {
@@ -104,12 +121,54 @@ export default function Trivia() {
     }, 1000)
   }
 
+  const handleCurrentScore = event => {
+    setCurrentScore(event.target.value)
+  }
+
+  const [startValue, setStartValue] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 60,
+  })
+  const [targetValue, setTargetValue] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
+
+  const timerData = ["days", "hours", "minutes", "seconds", "secondTenths"]
+
+  const [timer, isTargetAchieved] = useTimer({
+    startValues: startValue,
+    target: targetValue,
+    countdown: true,
+    precision: "secondTenths",
+  })
+
+  const handleGameStart = () => {
+    startCountdown(timer, startValue)
+
+    setQuestionNumber(0)
+  }
+
   return (
     <main className={css.triviaWrapper}>
       <h1 className="game-title">Trivia</h1>
-      <Link to="/" className={css.exit}>
+      <ScoreTimer
+        timer={timer}
+        startValue={startValue}
+        totalScore={totalScore}
+        handleCurrentScore={handleCurrentScore}
+        questionNumber={questionNumber}
+        // handleRestart={handleRestart}
+        handleGameStart={handleGameStart}
+        // gameStart={gameStart}
+      />
+      {/* <Link to="/" className={css.exit}>
         Exit
-      </Link>
+      </Link> */}
       <section>
         <div className={css.text}>
           <TriviaQuestion question={question} />
