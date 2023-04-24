@@ -100,11 +100,15 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   color: #ffffff;
   width: 50%;
-  margin-left: 25%;
+  padding-bottom: 50px;
+  min-width: 250px;
+  margin: auto;
+  font-size: 120%;
 }
 
-.startRulesWrapper li {
-  list-style: none;
+.rules {
   font-size: 130%;
-  font-weight: 700;
+  display: grid;
+  margin-top: 10px;
+  font-weight: 700%;
 }
