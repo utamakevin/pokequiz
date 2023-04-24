@@ -1,0 +1,11 @@
+.title {
+    color: black;
+}
+
+.leaderboard {
+    display: flex;
+    justify-content: space-between;
+    font-size: 200%;
+    margin-top: 50px;
+}
+

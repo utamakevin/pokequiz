@@ -102,3 +102,8 @@
   border: 2px solid whitesmoke;
   width: auto;
 }
+
+.p {
+  margin: 0;
+  padding: 0;
+}
