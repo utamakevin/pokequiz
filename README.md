@@ -6,6 +6,12 @@ Test your knowledge of the Pokemon universe through this app. PokeQuiz is an app
 ## Let's Get Technical
 This app consists of a front-end, back-end and a database.
 
+### Tech Stact
+- React
+- Express
+- Postgresql
+- CSS
+
 ### Front-end: Made with React
 The front end of this app is built on React. Upon opening the app, the user lands on the home page, from where they can browse through the games. The app currently have two games: wordwall and trivia.
 
