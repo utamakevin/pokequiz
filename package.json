@@ -43,5 +43,6 @@
   },
   "devDependencies": {
     "easytimer-react-hook": "^2.0.2"
-  }
+  },
+  "proxy": "http://localhost:8080/"
 }
