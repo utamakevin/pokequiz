@@ -113,7 +113,6 @@ export default function Wordwall() {
     generateRevealOrder(20).then(res => setToReveal(res))
     setRevealAnswer(false)
     setIsDisabled(false)
-    setQuestionNumber(0)
     setGameOver(false)
 
     timer.addEventListener("targetAchieved", async () => {

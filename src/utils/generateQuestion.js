@@ -119,7 +119,7 @@ async function processQuestion(question) {
       data.id = question.id
       data.question = question.name.replace(/\$/, res.name)
       data.question2 = `options: Cave, Forest, Grassland, Mountain, Rare, Rough-terrain, Sea, urban, Waters-edge`
-      data.answer = res.habitat.name
+      data.answer = capitaliseFirstLetter(res.habitat.name)
     }
     if (question.id === 6) {
       data.id = question.id
