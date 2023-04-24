@@ -1,74 +1,29 @@
-# Getting Started with Create React App
+# PokeQuiz
 
-Mohammed Ali was here test
+Test your knowledge of the Pokemon universe through this app. PokeQuiz is an app that aims to bundle multiple games into one. The app is utilising Pokemon API as its' data source. The app was made with mobile-first design in mind. You can access the demo [here](https://fancy-mooncake-9337fd.netlify.app/).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Let's Get Technical
+This app consists of a front-end, back-end and a database.
 
-In the project directory, you can run:
+### Front-end: Made with React
+The front end of this app is built on React. Upon opening the app, the user lands on the home page, from where they can browse through the games. The app currently have two games: wordwall and trivia.
 
-### `npm start`
+![Homepage](./public/images/homepage.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> Tips: if you hover on the PokeBall logo, a spinning animation is trigerred.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Wordwall: In this game, the user is to guess which Pokemon appears on the screen within a timeframe. The user is given multiple options to choose for their answer. To add a layer of difficulty, the Pokemon images are partially revealed as time progress. The quicker the user guesses, the more point they will get. At the end of a round, the user is given the opportunity to submit their username and score to be compared against others in a leaderboard. The leaderboard talks to an API made with express using PSQL as the database.
+- Trivia: In this game, users will be tested on their knowledge of PokeDex information. A timer and multiple options are given similar to Wordwall.
 
-### `npm test`
+![Wordwall](./public/images/wordwall.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Leaderboard: On each game, there is a leaderboard button that leads to a page showing users' attempts and their scores. This leaderboard is connected to a database, with which it communicates using CRUD routes.
 
-### `npm run build`
+![Trivia](./public/images/trivia.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Back-end: Made with Express
+The back end of this app consists of API routes that makes leaderboards possible. At the end of a round, the user is prompted to enter their username. This username will then be passed on to the API, adding an entry to the database along with thier achieved score. The leaderboard will only show the best five scores on the page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-kevin pull test
+### Database: Made with PostgreSQL
+The database is made with PostgreSQL with each leaderboard having their own table. Each of these tables records the entry's IDs, username and score. Upon request, the database will fetch the list of scores in descending order to be shown on the leaderboard pages, limited to five entries. The database will also create an entry upon request made at the end of a game round, recording both the username and the score the user achieved on that particular attempt.
