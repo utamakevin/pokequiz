@@ -22,6 +22,7 @@ import {
   startCountdown,
   stopTimer,
 } from "../utils/timerFunctions"
+import TriviaResult from "../components/TriviaResult"
 const timer = new Timer()
 
 export default function Trivia() {
@@ -34,6 +35,12 @@ export default function Trivia() {
   const [currentScore, setCurrentScore] = useState(0)
   const [totalScore, setTotalScore] = useState(0)
   const [questionNumber, setQuestionNumber] = useState(0)
+
+  const [gameOver, setGameOver] = useState(false)
+  const [outOfTime, setOutOfTime] = useState(false)
+
+  const qNumRef = useRef()
+  qNumRef.current = questionNumber
 
   // from here
   useEffect(() => {
@@ -111,14 +118,29 @@ export default function Trivia() {
     if (selectedOption === question.answer) {
       setIsRevealed(true)
       setFeedback("Correct!")
+      setTotalScore(
+        prevScore =>
+          prevScore +
+          Number(timer.getTimeValues().toString(timerData).split(":").join(""))
+      )
     } else {
       setIsRevealed(true)
       setFeedback("Wrong!")
     }
-    setTimeout(() => {
-      handleNewQ(genOne)
-      setIsRevealed(false)
-    }, 1000)
+
+    pauseTimer(timer)
+
+    if (qNumRef.current >= 10) {
+      setGameOver(true)
+    } else {
+      setTimeout(() => {
+        handleNewQ(genOne)
+        setIsRevealed(false)
+        resetTimer(timer)
+        startCountdown(timer, startValue)
+        setQuestionNumber(qNumRef.current + 1)
+      }, 1000)
+    }
   }
 
   const handleCurrentScore = event => {
@@ -149,23 +171,53 @@ export default function Trivia() {
 
   const handleGameStart = () => {
     startCountdown(timer, startValue)
+    setQuestionNumber(qNumRef.current + 1)
 
+    setIsRevealed(false)
+    setQuestionNumber(0)
+
+    timer.addEventListener("targetAchieved", async () => {
+      setOutOfTime(true)
+      pauseTimer(timer)
+
+      if (qNumRef.current >= 10) {
+        setGameOver(true)
+      } else {
+        setTimeout(() => {
+          setOutOfTime(false)
+          resetTimer(timer)
+          startCountdown(timer, startValue)
+          setQuestionNumber(qNumRef.current + 1)
+        }, 1000)
+      }
+    })
+  }
+
+  const handleRestart = () => {
+    stopTimer(timer)
+    setTotalScore(0)
+    setIsRevealed(false)
+    setGameOver(false)
     setQuestionNumber(0)
   }
 
   return (
     <main className={css.triviaWrapper}>
       <h1 className="game-title">Trivia</h1>
-      <ScoreTimer
-        timer={timer}
-        startValue={startValue}
-        totalScore={totalScore}
-        handleCurrentScore={handleCurrentScore}
-        questionNumber={questionNumber}
-        // handleRestart={handleRestart}
-        handleGameStart={handleGameStart}
-        // gameStart={gameStart}
-      />
+      {gameOver ? (
+        <TriviaResult totalScore={totalScore} handleRestart={handleRestart} />
+      ) : (
+        <ScoreTimer
+          timer={timer}
+          startValue={startValue}
+          totalScore={totalScore}
+          handleCurrentScore={handleCurrentScore}
+          questionNumber={questionNumber}
+          // handleRestart={handleRestart}
+          handleGameStart={handleGameStart}
+          // gameStart={gameStart}
+        />
+      )}
       {/* <Link to="/" className={css.exit}>
         Exit
       </Link> */}

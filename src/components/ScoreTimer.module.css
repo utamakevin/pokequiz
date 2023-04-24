@@ -68,7 +68,7 @@
   max-height: 50px;
   border-radius: 10px;
   border: 2px solid whitesmoke;
-  background-color: rgb(255, 74, 74);
+  /* background-color: rgb(255, 74, 74); */
 }
 
 .navButton button a {
